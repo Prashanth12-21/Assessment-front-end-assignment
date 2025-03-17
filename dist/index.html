@@ -1,23 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-
-    <link href="favicon.svg" rel="icon" type="image/svg+xml" />
-
-    <title>Front-end Assignment</title>
-  </head>
-
-  <body>
-    <main>
-      <form>
-        <!-- The application form goes here -->
-      </form>
-    </main>
-
-    <script src="js/default.js"></script>
-  </body>
-
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NYC Opportunity Form</title>
+  <!-- Link to the JavaScript file -->
+  <script defer src="js/default.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .error-message { color: red; font-size: 0.9em; display: none; }
+  </style>
+</head>
+<body>
+  <h1>Personal Information Form</h1>
+  
+  <!-- Form element -->
+  <form id="user-form" novalidate>
+    <!-- Container for dynamic form fields -->
+    <div id="form-container">
+      <!-- Fields will be injected here by default.js -->
+    </div>
+    <!-- Submit button -->
+    <button type="submit">Submit</button>
+  </form>
+  
+  <!-- Status message area for feedback -->
+  <div id="status-message" role="alert"></div>
+</body>
 </html>

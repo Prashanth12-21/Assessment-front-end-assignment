@@ -14,7 +14,7 @@ const express = require('express');
  * Constants
  */
 
-const PORT = process.env.PORT || '7000';
+const PORT = process.env.PORT || '8000';
 const DIST = path.join(process.env.PWD, (process.env.NODE_ENV === 'test') ? 'test' : 'dist');
 
 /**
