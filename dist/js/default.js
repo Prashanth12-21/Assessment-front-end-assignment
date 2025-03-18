@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const form = document.getElementById("user-form");
     const statusMessage = document.getElementById("status-message");
 
-    // Fetch form questions from the API
+
     async function fetchQuestions() {
         try {
             const response = await fetch("https://asmple.free.beeceptor.com/questions");
@@ -15,14 +15,13 @@ document.addEventListener("DOMContentLoaded", async () => {
             console.error("Error fetching questions:", error);
             statusMessage.textContent = "Error loading form questions.";
             statusMessage.style.color = "red";
-            return []; // Return empty array to prevent further errors
+            return []; 
         }
     }
 
-    // Dynamically create form fields based on fetched questions
     async function renderForm() {
         const questions = await fetchQuestions();
-        formContainer.innerHTML = ""; // Clear existing fields if any
+        formContainer.innerHTML = ""; 
 
         questions.forEach(question => {
             const wrapper = document.createElement("div");
@@ -33,6 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
             formContainer.appendChild(wrapper);
         });
+
     }
 
     function createRadioGroup(container, question) {
@@ -73,6 +73,39 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (question.pattern) {
             input.pattern = question.pattern;
         }
+        input.addEventListener("input", (event) => {
+            console.log("Input event triggered");
+            if (question.required) {
+                if(input.validity.valueMissing)
+              input.setCustomValidity(`Please enter ${question.label}.`);
+                else {
+                    input.setCustomValidity("");
+                  }
+            } else if (question.pattern ) {
+                if(input.validity.patternMismatch)
+              input.setCustomValidity(`Invalid ${question.label}.`);
+                else {
+                    input.setCustomValidity("");
+                  }
+              
+            } else if (question.type === "email" ) {
+                if(input.validity.typeMismatch)
+              input.setCustomValidity("I am expecting an email address!");
+                else {
+                    input.setCustomValidity("");
+                  }
+            }
+          });
+          input.addEventListener("invalid", (event) => {
+            event.preventDefault();
+            const error_message = input.validationMessage;
+            // Display the error message in a way that is accessible to screen readers
+            const error_element = document.createElement("div");
+            error_element.textContent = error_message;
+            error_element.setAttribute("role", "alert");
+            error_element.setAttribute("aria-live", "assertive");
+            input.parentNode.appendChild(error_element);
+          });
 
         input.addEventListener("blur", () => validateInput(input));
         container.appendChild(label);
@@ -90,7 +123,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
-    // Handle form submission
     async function submitForm(event) {
         event.preventDefault();
         let isValid = Array.from(form.elements).every(input => validateInput(input) || input.checkValidity());
